@@ -14,7 +14,7 @@ const storedPlaces = storedIds.map((id) =>
 
 function App() {
     const selectedPlace = useRef();
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [availablePlaces, setAvailablePlaces] = useState([]);
     const [pickedPlaces, setPickedPlaces] = useState(storedPlaces);
 
@@ -31,12 +31,12 @@ function App() {
     }, []);
 
     function handleStartRemovePlace(id) {
-        setIsModalOpen(true);
+        setModalIsOpen(true);
         selectedPlace.current = id;
     }
 
     function handleStopRemovePlace() {
-        setIsModalOpen(false);
+        setModalIsOpen(false);
     }
 
     function handleSelectPlace(id) {
@@ -64,7 +64,7 @@ function App() {
                 (place) => place.id !== selectedPlace.current
             )
         );
-        setIsModalOpen(false);
+        setModalIsOpen(false);
 
         const storedIds =
             JSON.parse(localStorage.getItem('selectedPlaces')) || [];
@@ -78,7 +78,7 @@ function App() {
 
     return (
         <>
-            <Modal open={isModalOpen} onClose={handleStopRemovePlace}>
+            <Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
                 <DeleteConfirmation
                     onCancel={handleStopRemovePlace}
                     onConfirm={handleRemovePlace}
@@ -104,8 +104,8 @@ function App() {
                 />
                 <Places
                     title="Available Places"
-                    fallbackText="Sorting places by distance ..."
                     places={availablePlaces}
+                    fallbackText="Sorting places by distance..."
                     onSelectPlace={handleSelectPlace}
                 />
             </main>
